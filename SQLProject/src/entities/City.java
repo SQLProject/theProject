@@ -1,15 +1,13 @@
 package entities;
 
-public class City {
+public class City extends Location{
+	Country country;
 	
-	String name;
 	
-	public City (String city_name){
+	public City (String city_name,Country country){
 		this.name=city_name;
+		this.country=country;
 	}
-	
-	public String getCityName(){
-		return this.name;
-	}
+
 
 }

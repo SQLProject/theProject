@@ -1,25 +1,24 @@
 package entities;
 
-public class Country {
+import java.util.ArrayList;
+
+public class Country extends Location{
 	
-	int id;
-	String name;
 	CapitalCity capital;
-	City cities[];
+	ArrayList<City> cities;
 	
-	public Country(int id, String country_name){
+
+	public Country(String yagoID, String country_name,int id){
 		this.id=id;
 		this.name=country_name;
+		this.yagoID=yagoID;
 	}
 	
-	public Country(int id, String country_name,CapitalCity capital_city){
+	public Country(String yagoID, String country_name,int id,CapitalCity capital_city){
 		this.id=id;
 		this.name=country_name;
+		this.yagoID=yagoID;
 		this.capital=capital_city;
-	}
-	
-	public String getCountryName(){
-		return this.name;
 	}
 	
 	public CapitalCity getCapitalCity(){
@@ -30,11 +29,11 @@ public class Country {
 		this.capital=capital_city;
 	}
 
-	public City[] getCities(){
+	public ArrayList<City> getCities(){
 		return this.cities;
 	}
 	
-	public void setCities(City[] cities){
+	public void setCities(ArrayList<City> cities){
 		this.cities=cities;
 	}
 	

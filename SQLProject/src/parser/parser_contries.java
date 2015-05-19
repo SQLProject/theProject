@@ -26,27 +26,26 @@ public class parser_contries {
 		File yagoTansetiveTypes = new File(yago_file_path);
 		if (yago_file_path == null || !yagoTansetiveTypes.exists())
 			return;
-			BufferedReader br = null;
-			String line;
-			try {
-				FileReader fr = new FileReader(yago_file_path);
-				br = new BufferedReader(fr);
-				while((line= br.readLine())!= null)
-				{
-					if(line.contains("<wikicat_Countries>")){
-						System.out.println(line);
-					}
+		BufferedReader br = null;
+		String line;
+		try {
+			FileReader fr = new FileReader(yago_file_path);
+			br = new BufferedReader(fr);
+			while((line= br.readLine())!= null){
+				if(line.contains("<wikicat_Countries>")){
+					System.out.println(line);
 				}
 			}
-			catch(Exception e){
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				br.close();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			finally{
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+		}
 	}
 }
