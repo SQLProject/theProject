@@ -1,40 +1,45 @@
 package parser;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.util.ArrayList;
+import java.util.HashMap;
 
-import entities.*;
+import entities.City;
+import entities.Country;
 
 
-public class TransitiveType_Parser {
-	
-	
-	public static void main(String args[]){
-		String yago_file_path = "D:\\yagodata\\yagoTransitiveType.tsv";
-		ArrayList<Country> CountriesList=parse_Country(yago_file_path);
-		for (Country country: CountriesList){
-			country.setCities(parse_Cities(yago_file_path,country.getName()));
-		}
+
+public class TransitiveType_Parser extends abstract_parser{
 		
-		
+	public TransitiveType_Parser(){
+		this.countriesMap= new HashMap<String,Country>();
+		this.citiesMap= new HashMap<String,City>();
+		parse_transitive_type();
 	}
 	
-	
-	public static ArrayList<Country> parse_Country(String yago_file_path) {
+	protected void parse_transitive_type(){
+		//DEBUG
+		//System.out.println("**inSide parse_transitive_type function**");
+		//DEBUG
+		String yago_file_path = "D:\\yagoTransitiveType.tsv";
 		
-		ArrayList<Country> CountriesList= new ArrayList<Country>();
+		//DEBUG		
+		//int countCountry=0;
+		//int countCity=0;
+		//DEBUG
 		
 		/*try to open the yagoTansetiveTypes file*/
 		File yagoTansetiveTypes = new File(yago_file_path);
 		if (yago_file_path == null || !yagoTansetiveTypes.exists()){
 			System.out.println("Can't Open yagoTransitiveType File");
-			return CountriesList;
+			return;
 		}
 		
-		
+		//DEBUG
+		//System.out.println("Opened the Yago File");
+		//DEBUG
 		BufferedReader br = null;
 		String line;
 		
@@ -43,8 +48,23 @@ public class TransitiveType_Parser {
 			br = new BufferedReader(fr);
 
 			while((line= br.readLine())!= null){
+				
+				/* find all the countries with the proper tag */
 				if(line.contains("<wikicat_Countries>")){
-					CountriesList.add(getCountryNameFromLine(line));
+					Country newCountry=getCountryFromLine(line);
+					countriesMap.put(newCountry.getName(), newCountry);
+					//DEBUG
+					//countCountry++;
+					//DEBUG
+				}
+				
+				/* find all the cities with the proper tag */
+				if(line.contains("<wikicat_Cities>") || line.contains("<wordnet_city_")){
+					City newCity=getCityFromLine(line);
+					citiesMap.put(newCity.getName(),newCity);
+					//DEBUG
+					//countCity++;
+					//DEBUG
 				}
 			}
 		}
@@ -59,73 +79,36 @@ public class TransitiveType_Parser {
 				e.printStackTrace();
 			}
 		}
-		
-		return CountriesList;
+		//DEBUG
+		//System.out.println("There are "+countCountry+" countries");
+		//System.out.println("There are "+countCity+" cities");
+		//DEBUG
 	}
-		
 	
-	public static Country getCountryNameFromLine(String line){
-		
-		/* we'll save the yagoId, this is the first tag in the line */
-		String yagoID= line.substring((line.indexOf('<',0)+1), (line.indexOf('>',0)+1));
+	
+	protected Country getCountryFromLine(String line){
+		//DEBUG
+		//System.out.println(line);
+		//DEBUG
+		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
-		
-		/* we'll save the country name, this is the second tag in the line */
-		String country_name=line.substring(line.indexOf('<',0), line.indexOf('>',0));
-		return new Country(yagoID,country_name,0);		
-	}
-	
-	public static ArrayList<City> parse_Cities(String yago_file_path, String country){
-		
-		ArrayList<City> CitiesList= new ArrayList<City>();
-		
-		/*try to open the yagoTansetiveTypes file*/
-		File yagoTansetiveTypes = new File(yago_file_path);
-		if (yago_file_path == null || !yagoTansetiveTypes.exists()){
-			System.out.println("Can't Open yagoTransitiveType File");
-			return CitiesList;
-		}
-		
-		
-		BufferedReader br = null;
-		String line;
-		
-		try {
-			FileReader fr = new FileReader(yagoTansetiveTypes);
-			br = new BufferedReader(fr);
-
-			while((line= br.readLine())!= null){
-				if(line.contains("<wikicat_Cities_in_"+country+">")){
-					CitiesList.add(getCityNameFromLine(line));
-				}
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		finally{
-			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return CitiesList;
+		String country_name=getTag(line);
+		//DEBUG
+		//System.out.println("The country yagoID is: "+yagoID+"\t The country name is: "+country_name);
+		//DEBUG
+		return new Country(yagoID,country_name,0);	//TODO:ID	
 	}
 	
 	
-	public static City getCityNameFromLine(String line){
-		/* we'll save the yagoId, this is the first tag in the line */
-		String yagoID= line.substring((line.indexOf('<',0)+1), (line.indexOf('>',0)+1));
+	protected City getCityFromLine(String line){
+		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		String city_name=getTag(line);
+		//DEBUG
+		//System.out.println("The city yagoID is:"+yagoID+"\t The city name is:"+city_name);
+		//DEBUG
+		return new City(yagoID,city_name,0);	//TODO:ID
 		
-		/* we'll save the city name, this is the second tag in the line */
-		String city_name=line.substring(line.indexOf('<',0), line.indexOf('>',0));
-		//TODO
-		//return new City(yagoID,city_name,0);		
-		return null;
 	}
 
 }

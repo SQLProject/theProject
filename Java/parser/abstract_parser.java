@@ -1,28 +1,29 @@
 package parser;
 
+import java.util.HashMap;
+
+import entities.City;
 import entities.Country;
+
 
 public abstract class abstract_parser {
 	
+	HashMap<String,Country> countriesMap;
+	HashMap<String,City> citiesMap;
+
 	
+	protected static String getTag(String line){		
+		return line.substring(line.indexOf('<',0)+1, line.indexOf('>',0));
+	}
 	
-	
-	
-	public static String[] getFirstTwoTags(String line){
-		
-		/* we'll save the yagoId, this is the first tag in the line */
-		String yagoID= line.substring((line.indexOf('<',0)+1), (line.indexOf('>',0)+1));
-		line=line.substring(line.indexOf('>',0)+1);
-		
-		/* we'll save the country name, this is the second tag in the line */
-		String name=line.substring(line.indexOf('<',0), line.indexOf('>',0));
-		
-		String[] result= {yagoID,name};
-		return result;
+	protected HashMap<String,Country> getCountriesMap(){
+		return this.countriesMap;
 	}
 	
 	
-	
-	
-
+	protected HashMap<String,City> getCitiesSet(){
+		return this.citiesMap;
+	}
+		
 }
+
