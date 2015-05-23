@@ -16,6 +16,8 @@ public abstract class abstract_parser {
 		return line.substring(line.indexOf('<',0)+1, line.indexOf('>',0));
 	}
 	
+	//TODO: to write function that gets 3 tags and 4 tags from the line
+	
 	protected HashMap<String,Country> getCountriesMap(){
 		return this.countriesMap;
 	}

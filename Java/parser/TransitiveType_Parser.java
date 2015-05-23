@@ -23,7 +23,7 @@ public class TransitiveType_Parser extends abstract_parser{
 		//DEBUG
 		//System.out.println("**inSide parse_transitive_type function**");
 		//DEBUG
-		String yago_file_path = "D:\\yagoTransitiveType.tsv";
+		String yago_file_path = "D:\\yadodata\\yagoTransitiveType.tsv";
 		
 		//DEBUG		
 		//int countCountry=0;

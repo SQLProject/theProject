@@ -22,12 +22,11 @@ public class Facts_Parser extends abstract_parser{
 		//DEBUG
 		System.out.println("**inSide parse_yago_facts function**");
 		//DEBUG
-		String yago_file_path = "D:\\yagoFacts.tsv";
+		String yago_file_path = "D:\\yadodata\\yagoFacts.tsv";
 		
 		//DEBUG
 		int countCapitalCities=0;
 		int countLanguages=0;
-		int countCityToCOuntry=0;
 		//DEBUG
 		
 		/*try to open the yagoTansetiveTypes file*/
@@ -64,13 +63,6 @@ public class Facts_Parser extends abstract_parser{
 					countLanguages++;
 					//DEBUG
 				}
-				
-				if(line.contains("<isLocatedIn>")){
-					addCityToCountry(line);
-					//DEBUG
-					countCityToCOuntry++;
-					//DEBUG
-				}
 
 			}
 		}
@@ -88,42 +80,9 @@ public class Facts_Parser extends abstract_parser{
 		/*DEBUG*/
 		System.out.println("There are "+countCapitalCities+" capital cities");
 		System.out.println("There are "+countLanguages+"languages"); 
-		System.out.println("There are "+countCityToCOuntry+"languages"); 
 		/*DEBUG*/	
 	}
 
-	
-	
-	
-	
-
-	protected void addCityToCountry(String line) {
-		
-		/* get the the parsed info from the line */
-		String yagoID=getTag(line);
-		line=line.substring(line.indexOf('>',0)+1);
-		String city_name=getTag(line);
-		line=line.substring(line.indexOf('>',0)+1);
-		line=line.substring(line.indexOf('>',0)+1);
-		String country_name=getTag(line).substring(line.indexOf('_', 0));
-		
-		/* find the country in the countries list and insert the language */
-		Country country=countriesMap.get(country_name);
-		if (country==null){
-			System.out.println(" The country "+country_name+", for the city "+city_name+", has not been found ");
-			country=new Country(yagoID, country_name, 0); //TODO:ID
-		}
-		
-		City city=citiesMap.get(city_name);
-		if (city==null){
-			System.out.println(" The city "+city_name+" has not been found in the citiesMap");
-			city=new City(yagoID,city_name,0); //TODO:ID
-		}
-		
-		country.addCity(city);
-		countriesMap.put(country_name, country);
-			
-	}
 
 
 	protected void addLanguagestoCountry(String line) {
@@ -164,14 +123,14 @@ public class Facts_Parser extends abstract_parser{
 			country=new Country(yagoID, country_name, 0); //TODO:ID
 		}
 		
-		CapitalCity capitalCity;
+		City capitalCity;
 		if (citiesMap.containsKey(capital_name)){
 			capitalCity=(CapitalCity)citiesMap.get(capital_name);
 		}else{
-			capitalCity= new CapitalCity(yagoID,capital_name,0);	//TODO:ID
+			capitalCity= new City(yagoID,capital_name,0);	//TODO:ID
 		}
 		
-		country.setCapitalCity(capitalCity);
+		capitalCity.setCapital();
 		countriesMap.put(country_name, country);
 	}
 	
