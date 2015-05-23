@@ -11,7 +11,7 @@ public class City extends Location{
 		this.id=id;
 	}
 	
-	protected void setCountry(Country country){
+	public void setCountry(Country country){
 		this.country=country;
 	}
 	
