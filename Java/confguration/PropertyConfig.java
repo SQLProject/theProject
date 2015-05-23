@@ -2,7 +2,7 @@ package Confguration;
 
 import java.io.IOException;
 import java.util.Properties;
-//Configuration Class HELLO
+//Configuration Class HELLO HI!!!!
 public class PropertyConfig {
 
     private Properties configFile = new Properties();
