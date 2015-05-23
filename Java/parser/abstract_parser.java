@@ -41,7 +41,7 @@ public abstract class abstract_parser {
 		return this.coachesMap;
 	}
 	
-		protected HashMap<String,Team> getTeamsSet(){
+	protected HashMap<String,Team> getTeamsSet(){
 		return this.teamsMap;
 	}
 		
