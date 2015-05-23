@@ -3,13 +3,17 @@ package parser;
 import java.util.HashMap;
 
 import entities.City;
+import entities.Coach;
 import entities.Country;
+import entities.Player;
 
 
 public abstract class abstract_parser {
 	
 	HashMap<String,Country> countriesMap;
 	HashMap<String,City> citiesMap;
+	HashMap<String,Player> playersMap;
+	HashMap<String,Coach> coachesMap;
 
 	
 	protected static String getTag(String line){		
@@ -23,8 +27,16 @@ public abstract class abstract_parser {
 	}
 	
 	
-	protected HashMap<String,City> getCitiesSet(){
+	protected HashMap<String,City> getCitiesMap(){
 		return this.citiesMap;
+	}
+	
+	protected HashMap<String,Player> getPlayersMap(){
+		return this.playersMap;
+	}
+	
+	protected HashMap<String,Coach> getCoachesMap(){
+		return this.coachesMap;
 	}
 		
 }
