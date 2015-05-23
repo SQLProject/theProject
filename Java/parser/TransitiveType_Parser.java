@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import entities.City;
+import entities.Coach;
 import entities.Country;
+import entities.Player;
+import entities.SportField;;
 
 
 
@@ -16,35 +19,26 @@ public class TransitiveType_Parser extends abstract_parser{
 	public TransitiveType_Parser(){
 		this.countriesMap= new HashMap<String,Country>();
 		this.citiesMap= new HashMap<String,City>();
+		this.playersMap= new HashMap<String,Player>();
+		this.coachesMap=new HashMap<String,Coach>();
 		parse_transitive_type();
 	}
 	
 	protected void parse_transitive_type(){
-		//DEBUG
-		//System.out.println("**inSide parse_transitive_type function**");
-		//DEBUG
-		String yago_file_path = "D:\\yadodata\\yagoTransitiveType.tsv";
-		
-		//DEBUG		
-		//int countCountry=0;
-		//int countCity=0;
-		//DEBUG
+		String yagoTransitiveType_file_path = "D:\\yagodata\\yagoTransitiveType.tsv";
 		
 		/*try to open the yagoTansetiveTypes file*/
-		File yagoTansetiveTypes = new File(yago_file_path);
-		if (yago_file_path == null || !yagoTansetiveTypes.exists()){
+		File yagoTransetiveTypes = new File(yagoTransitiveType_file_path);
+		if (yagoTransitiveType_file_path == null || !yagoTransetiveTypes.exists()){
 			System.out.println("Can't Open yagoTransitiveType File");
 			return;
 		}
 		
-		//DEBUG
-		//System.out.println("Opened the Yago File");
-		//DEBUG
 		BufferedReader br = null;
 		String line;
 		
 		try {
-			FileReader fr = new FileReader(yagoTansetiveTypes);
+			FileReader fr = new FileReader(yagoTransetiveTypes);
 			br = new BufferedReader(fr);
 
 			while((line= br.readLine())!= null){
@@ -53,19 +47,38 @@ public class TransitiveType_Parser extends abstract_parser{
 				if(line.contains("<wikicat_Countries>")){
 					Country newCountry=getCountryFromLine(line);
 					countriesMap.put(newCountry.getName(), newCountry);
-					//DEBUG
-					//countCountry++;
-					//DEBUG
 				}
 				
 				/* find all the cities with the proper tag */
 				if(line.contains("<wikicat_Cities>") || line.contains("<wordnet_city_")){
 					City newCity=getCityFromLine(line);
 					citiesMap.put(newCity.getName(),newCity);
-					//DEBUG
-					//countCity++;
-					//DEBUG
 				}
+				
+				/* find all the sport players */
+				if(line.contains("<wordnet_") && line.contains("_player_")){
+					Player player= getPlayerFromLine(line);
+					if (line.contains("_football_"))
+						player.setSportField(SportField.FOOTBALL);
+					if (line.contains("_basketball_"))
+						player.setSportField(SportField.BASKETBALL);
+					if (line.contains("_tennis_"))
+						player.setSportField(SportField.TENNIS);
+					playersMap.put(player.getName(), player);
+				}
+				
+				/* find all the sport coaches */
+				if(line.contains("<wordnet_") && line.contains("_coach_")){
+					Coach coach= getCoachFromLine(line);
+					if (line.contains("_football_"))
+						coach.setSportField(SportField.FOOTBALL);
+					if (line.contains("_basketball_"))
+						coach.setSportField(SportField.BASKETBALL);
+					if (line.contains("_tennis_"))
+						coach.setSportField(SportField.TENNIS);
+					coachesMap.put(coach.getName(), coach);
+				}
+				
 			}
 		}
 		catch(Exception e){
@@ -79,23 +92,28 @@ public class TransitiveType_Parser extends abstract_parser{
 				e.printStackTrace();
 			}
 		}
-		//DEBUG
-		//System.out.println("There are "+countCountry+" countries");
-		//System.out.println("There are "+countCity+" cities");
-		//DEBUG
+
 	}
 	
 	
+	private Coach getCoachFromLine(String line) {
+		String yagoID=getTag(line);
+		line=line.substring(line.indexOf('>',0)+1);
+		String coach_name=getTag(line);
+		return new Coach(yagoID,coach_name,0); //TODO:ID
+	}
+
+	private Player getPlayerFromLine(String line) {
+		String yagoID=getTag(line);
+		line=line.substring(line.indexOf('>',0)+1);
+		String player_name=getTag(line);
+		return new Player(yagoID,player_name,0); //TODO:ID
+	}
+
 	protected Country getCountryFromLine(String line){
-		//DEBUG
-		//System.out.println(line);
-		//DEBUG
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		String country_name=getTag(line);
-		//DEBUG
-		//System.out.println("The country yagoID is: "+yagoID+"\t The country name is: "+country_name);
-		//DEBUG
 		return new Country(yagoID,country_name,0);	//TODO:ID	
 	}
 	
@@ -104,9 +122,6 @@ public class TransitiveType_Parser extends abstract_parser{
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		String city_name=getTag(line);
-		//DEBUG
-		//System.out.println("The city yagoID is:"+yagoID+"\t The city name is:"+city_name);
-		//DEBUG
 		return new City(yagoID,city_name,0);	//TODO:ID
 		
 	}

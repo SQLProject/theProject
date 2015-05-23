@@ -7,6 +7,9 @@ public abstract class Person {
 	int id;
 	Date birthDate;
 	City birthCity;
+	City currentCity;
+	SportField sportfield;
+	
 	
 	public Person (String yagoID, String name, int id){
 		this.yagoID=yagoID;
@@ -30,6 +33,17 @@ public abstract class Person {
 		return this.birthCity;
 	}
 	
+	public String getName(){
+		return this.name;
+	}
+	
+	protected SportField getSportField(){
+		return this.sportfield;
+	}
+	
+	public void setSportField(SportField sportfield){
+		this.sportfield=sportfield;
+	}
 
 }
 

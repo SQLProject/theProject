@@ -6,6 +6,5 @@ public class Event {
 	String name;
 	int id;
 	Location happendIn;
-	
 
 }

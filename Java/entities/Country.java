@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class Country extends Location{
 	
-	CapitalCity capital;
 	HashMap<String,Integer> languages;
 	
 
@@ -12,18 +11,10 @@ public class Country extends Location{
 		this.id=id;
 		this.name=country_name;
 		this.yagoID=yagoID;
-		this.capital=null;
 		this.languages=new HashMap<String, Integer>();
 		
 	}
 	
-	public CapitalCity getCapitalCity(){
-		return this.capital;
-	}
-	
-	public void setCapitalCity(CapitalCity capital_city){
-		this.capital=capital_city;
-	}
 
 	
 	public void addLanguage(String language){

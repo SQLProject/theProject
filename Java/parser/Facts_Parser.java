@@ -6,15 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import entities.CapitalCity;
 import entities.City;
+import entities.Coach;
 import entities.Country;
+import entities.Player;
 
 public class Facts_Parser extends abstract_parser{
 	
-	public Facts_Parser(HashMap<String, Country> countriesMap, HashMap<String,City> citiesSet ){
+	public Facts_Parser(HashMap<String, Country> countriesMap, HashMap<String,City> citiesSet, 
+			HashMap<String,Player> playersMap, HashMap<String,Coach> coachesMap ){
 		this.countriesMap= countriesMap;
 		this.citiesMap= citiesSet;
+		this.coachesMap=coachesMap;
+		this.playersMap=playersMap;
+		parse_yago_facts();
 	}
 	
 	
@@ -22,7 +27,7 @@ public class Facts_Parser extends abstract_parser{
 		//DEBUG
 		System.out.println("**inSide parse_yago_facts function**");
 		//DEBUG
-		String yago_file_path = "D:\\yadodata\\yagoFacts.tsv";
+		String yagoFacts_file_path = "D:\\yagodata\\yagoFacts.tsv";
 		
 		//DEBUG
 		int countCapitalCities=0;
@@ -30,8 +35,8 @@ public class Facts_Parser extends abstract_parser{
 		//DEBUG
 		
 		/*try to open the yagoTansetiveTypes file*/
-		File yagoFacts = new File(yago_file_path);
-		if (yago_file_path == null || !yagoFacts.exists()){
+		File yagoFacts = new File(yagoFacts_file_path);
+		if (yagoFacts_file_path == null || !yagoFacts.exists()){
 			System.out.println("Can't Open yagoFacts File");
 			return;
 		}
@@ -125,13 +130,13 @@ public class Facts_Parser extends abstract_parser{
 		
 		City capitalCity;
 		if (citiesMap.containsKey(capital_name)){
-			capitalCity=(CapitalCity)citiesMap.get(capital_name);
+			capitalCity=citiesMap.get(capital_name);
 		}else{
 			capitalCity= new City(yagoID,capital_name,0);	//TODO:ID
 		}
 		
 		capitalCity.setCapital();
-		countriesMap.put(country_name, country);
+		capitalCity.setCountry(country);
 	}
 	
 	
