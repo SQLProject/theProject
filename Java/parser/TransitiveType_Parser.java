@@ -9,8 +9,10 @@ import java.util.HashMap;
 import entities.City;
 import entities.Coach;
 import entities.Country;
-import entities.Player;
 import entities.SportField;;
+import entities.Player;
+import entities.Team;
+
 
 
 
@@ -22,6 +24,7 @@ public class TransitiveType_Parser extends abstract_parser{
 		this.playersMap= new HashMap<String,Player>();
 		this.coachesMap=new HashMap<String,Coach>();
 		parse_transitive_type();
+		this.teamsMap = new HashMap<String,Team>();
 	}
 	
 	protected void parse_transitive_type(){
@@ -53,6 +56,19 @@ public class TransitiveType_Parser extends abstract_parser{
 				if(line.contains("<wikicat_Cities>") || line.contains("<wordnet_city_")){
 					City newCity=getCityFromLine(line);
 					citiesMap.put(newCity.getName(),newCity);
+				}
+				
+					/* find all basketball teams */
+				if(line.contains("<wordnet_basketball_team")){
+					Team newTeam = getTeamFromLine(line);
+					newTeam.setSportField(SportField.BASKETBALL);
+					teamsMap.put(newTeam.getTeamName(), newTeam);
+				}
+					/* find all football teams */
+				if(line.contains("<wordnet_football_team")){
+					Team newTeam = getTeamFromLine(line);
+					newTeam.setSportField(SportField.FOOTBALL);
+					teamsMap.put(newTeam.getTeamName(), newTeam);
 				}
 				
 				/* find all the sport players */
@@ -124,6 +140,13 @@ public class TransitiveType_Parser extends abstract_parser{
 		String city_name=getTag(line);
 		return new City(yagoID,city_name,0);	//TODO:ID
 		
+	}
+	
+	protected Team getTeamFromLine(String line){
+		String yagoID = getTag(line);
+		line = line.substring(line.indexOf('>',0)+1);
+		String team_name = getTag(line);
+		return new Team(yagoID,team_name,0);
 	}
 
 }
