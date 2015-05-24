@@ -10,7 +10,7 @@ import entities.City;
 import entities.Coach;
 import entities.Country;
 import entities.Event;
-import entities.SportField;;
+import entities.SportField;
 import entities.Player;
 import entities.Team;
 
