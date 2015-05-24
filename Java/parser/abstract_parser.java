@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import confguration.PropertyConfig;
+import entities.Award;
 import entities.City;
 import entities.Coach;
 import entities.Country;
@@ -12,6 +13,7 @@ import entities.Player;
 import entities.Team;
 import entities.Event;
 import entities.Location;
+import entities.Stadium;
 
 public abstract class abstract_parser {
 	
@@ -22,6 +24,8 @@ public abstract class abstract_parser {
 	HashMap<String,Team> teamsMap;
 	HashMap<String,Event> eventsMap;
 	HashMap<String,Location> locationMap;
+	HashMap<String,Stadium> stadiumsMap;
+	HashMap<String,Award> awardsMap;
 
 	PropertyConfig config=new PropertyConfig();
 	protected static String getTag(String line){		
@@ -55,6 +59,14 @@ public abstract class abstract_parser {
 		return this.eventsMap;
 	}
 	
+	public HashMap<String,Stadium> getStadiumsMap(){
+		return this.stadiumsMap;
+	}
+	
+		protected HashMap<String,Award> getAwardsMap(){
+		return this.awardsMap;
+	}
+	
 	public Collection<Country> getCountriesSet(){
 		return this.countriesMap.values();
 	}
@@ -78,6 +90,13 @@ public abstract class abstract_parser {
 	
 	public Collection<Event> getEventsSet(){
 		return this.eventsMap.values();
+	}
+	
+	public Collection<Stadium> getStadiumsSet(){
+		return this.stadiumsMap.values();
+	}
+	public Collection<Award> getAwardsSet(){
+		return this.AwardsMap.values();
 	}
 		
 }

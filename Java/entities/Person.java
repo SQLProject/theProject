@@ -11,8 +11,8 @@ public abstract class Person {
 	City birthCity;
 	City currentCity;
 	SportField sportfield;
-	Set<String> teams;
-	
+	Set<String> teams; 
+	Set<String> awards;
 	
 	
 	public Person (String yagoID, String name, int id){
@@ -21,7 +21,7 @@ public abstract class Person {
 		this.id=id;
 	}
 	
-	protected void setBirthDate(String date){
+	public void setBirthDate(String date){
 		this.birthDate=new Date(date);
 	}
 	
@@ -33,11 +33,11 @@ public abstract class Person {
 		this.currentCity=currentCity;
 	}
 	
-	protected Date getBirthDate(){
+	public Date getBirthDate(){
 		return this.birthDate;
 	}
 	
-	protected City getBirthPlace(){
+	public City getBirthPlace(){
 		return this.birthCity;
 	}
 	
@@ -61,6 +61,16 @@ public abstract class Person {
 	{
 		this.teams.add(team);
 	}
+	
+	public void setAwards(String award)
+	{
+		this.awards.add(award);
+	}
+	
+	public void setBirthDate(Date birthDate){
+		this.birthDate=birthDate;
+	}
+	
 
 }
 
