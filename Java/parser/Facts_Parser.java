@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import entities.Award;
 import entities.City;
 import entities.Coach;
 import entities.Country;
@@ -81,6 +82,18 @@ public class Facts_Parser extends abstract_parser{
 					addAffiliatedTo(line);
 				}
 				
+				/* find all the awards the person won */
+				if(line.contains("<hasWonPrize>"))
+				{
+					addAwardTo(line);
+				}
+				
+				/* find all the awards the person won */
+				if(line.contains("<isLocatedIn>"))
+				{
+					addTeamLocation(line);
+					addEventLocation(line);
+				}
 
 			}
 		}
@@ -184,6 +197,74 @@ public class Facts_Parser extends abstract_parser{
 			{
 				playersMap.get(coach_name).setTeams(team_name);
 			}
+		}
+		
+		private void addAwardTo(String line) {
+			/* get the the parsed info from the line */
+			String yagoID=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			String person_name=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			line=line.substring(line.indexOf('>',0)+1);
+			String award_name=getTag(line);
+			/* check if the player is valid */
+			if(playersMap.containsKey(person_name))
+			{
+				playersMap.get(person_name).setAwards(award_name);
+				/* add new award if needed */
+				if(!(awardsMap.containsKey(award_name)))
+				{
+					Award newAward = new Award(award_name, 0);
+					awardsMap.put(award_name, newAward);
+				}
+			}
+			/* check if the coach is valid */
+			if(coachesMap.containsKey(person_name))
+			{
+				coachesMap.get(person_name).setAwards(award_name);
+				/* add new award if needed */
+				if(!(awardsMap.containsKey(award_name)))
+				{
+					Award newAward = new Award(award_name, 0);
+					awardsMap.put(award_name, newAward);
+				}
+			}
+		}
+		
+		private void addTeamLocation(String line) {
+			/* get the the parsed info from the line */
+			String yagoID=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			String team_name=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			line=line.substring(line.indexOf('>',0)+1);
+			String city_name=getTag(line);
+			if(teamsMap.containsKey(team_name) && citiesMap.containsKey(city_name))
+			{
+				teamsMap.get(team_name).setCity(citiesMap.get(city_name));
+			}	
+		}
+		
+		private void addEventLocation(String line) {
+			/* get the the parsed info from the line */
+			String yagoID=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			String event_name=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			line=line.substring(line.indexOf('>',0)+1);
+			String location_name=getTag(line);
+			if(eventsMap.containsKey(event_name))
+			{
+				if(citiesMap.containsKey(location_name))
+				{
+					eventsMap.get(event_name).setLocation(citiesMap.get(location_name));
+				}
+				else if(countriesMap.containsKey(location_name))
+				{
+					eventsMap.get(event_name).setLocation(countriesMap.get(location_name));
+				}
+			}
+			
 		}
 	
 

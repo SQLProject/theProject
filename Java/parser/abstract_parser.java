@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import confguration.PropertyConfig;
+import entities.Award;
 import entities.City;
 import entities.Coach;
 import entities.Country;
@@ -24,6 +25,7 @@ public abstract class abstract_parser {
 	HashMap<String,Event> eventsMap;
 	HashMap<String,Location> locationMap;
 	HashMap<String,Stadium> stadiumsMap;
+	HashMap<String,Award> awardsMap;
 
 	PropertyConfig config=new PropertyConfig();
 	protected static String getTag(String line){		
@@ -61,6 +63,10 @@ public abstract class abstract_parser {
 		return this.stadiumsMap;
 	}
 	
+		protected HashMap<String,Award> getAwardsMap(){
+		return this.awardsMap;
+	}
+	
 	public Collection<Country> getCountriesSet(){
 		return this.countriesMap.values();
 	}
@@ -88,6 +94,9 @@ public abstract class abstract_parser {
 	
 	public Collection<Stadium> getStadiumsSet(){
 		return this.stadiumsMap.values();
+	}
+	public Collection<Award> getAwardsSet(){
+		return this.AwardsMap.values();
 	}
 		
 }
