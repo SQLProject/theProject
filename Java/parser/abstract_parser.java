@@ -2,11 +2,13 @@ package parser;
 
 import java.util.HashMap;
 
+import confguration.PropertyConfig;
 import entities.City;
 import entities.Coach;
 import entities.Country;
 import entities.Player;
 import entities.Team;
+import entities.Event;
 
 
 public abstract class abstract_parser {
@@ -16,8 +18,9 @@ public abstract class abstract_parser {
 	HashMap<String,Player> playersMap;
 	HashMap<String,Coach> coachesMap;
 	HashMap<String,Team> teamsMap;
+	HashMap<String,Event> eventsMap;
 
-	
+	PropertyConfig config=new PropertyConfig();
 	protected static String getTag(String line){		
 		return line.substring(line.indexOf('<',0)+1, line.indexOf('>',0));
 	}
@@ -43,6 +46,10 @@ public abstract class abstract_parser {
 	
 	protected HashMap<String,Team> getTeamsSet(){
 		return this.teamsMap;
+	}
+	
+	protected HashMap<String,Event> getEventsSet(){
+		return this.eventsMap;
 	}
 		
 }

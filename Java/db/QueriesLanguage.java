@@ -5,7 +5,7 @@ import java.sql.SQLException;
 /**
  * Created by Kobi on 23/05/2015.
  */
-public class QueriesMovie extends DBOperations {
+public class QueriesLanguage extends DBOperations {
 
 
     /**
