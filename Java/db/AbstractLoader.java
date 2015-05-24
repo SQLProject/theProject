@@ -8,10 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import confguration.PropertyConfig;
 import db.DBOperations;
+import entities.Location;
+import parser.TransitiveType_Parser;
+import parser.abstract_parser;
 
 
 /**
@@ -37,6 +41,7 @@ public abstract class AbstractLoader extends DBOperations {
         return this.taskSize;
 
     }
+    abstract public HashMap<?, ?> getMap();
 
     abstract protected void sync_update_tables() throws SQLException;
 
@@ -77,6 +82,7 @@ public abstract class AbstractLoader extends DBOperations {
                 if (batch_count > 0 && batch_count % BATCH_SIZE == 0)
                     fail_count += execute_batches(batch_count);
             }
+            fail_count += execute_batches(batch_count % BATCH_SIZE);
 			/* execute remainder - if not terminated */
 //            if (!Caller.is_thread_terminated()) {
 //                fail_count += execute_batches(batch_count % BATCH_SIZE);
@@ -133,6 +139,7 @@ public abstract class AbstractLoader extends DBOperations {
                     if (batch_results[i] == PreparedStatement.EXECUTE_FAILED)
                         fail_count++;
             }
+            batch_ex.printStackTrace();
         }
         return fail_count;
     }
