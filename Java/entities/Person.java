@@ -11,6 +11,7 @@ public abstract class Person {
 	City birthCity;
 	City currentCity;
 	SportField sportfield;
+	Set<String> teams;
 	
 	
 	
@@ -54,6 +55,11 @@ public abstract class Person {
 	
 	public void setSportField(SportField sportfield){
 		this.sportfield=sportfield;
+	}
+	
+	public void setTeams(String team)
+	{
+		this.teams.add(team);
 	}
 
 }
