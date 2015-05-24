@@ -9,7 +9,8 @@ import java.util.HashMap;
 import entities.City;
 import entities.Coach;
 import entities.Country;
-import entities.SportField;;
+import entities.Event;
+import entities.SportField;
 import entities.Player;
 import entities.Team;
 
@@ -23,12 +24,12 @@ public class TransitiveType_Parser extends abstract_parser{
 		this.citiesMap= new HashMap<String,City>();
 		this.playersMap= new HashMap<String,Player>();
 		this.coachesMap=new HashMap<String,Coach>();
-		parse_transitive_type();
+		this.eventsMap= new HashMap<String,Event>();
 		this.teamsMap = new HashMap<String,Team>();
 	}
 	
 	protected void parse_transitive_type(){
-		String yagoTransitiveType_file_path = "D:\\yagodata\\yagoTransitiveType.tsv";
+		String yagoTransitiveType_file_path = config.get_yago_transitive_types_path();
 		
 		/*try to open the yagoTansetiveTypes file*/
 		File yagoTransetiveTypes = new File(yagoTransitiveType_file_path);
@@ -58,13 +59,13 @@ public class TransitiveType_Parser extends abstract_parser{
 					citiesMap.put(newCity.getName(),newCity);
 				}
 				
-					/* find all basketball teams */
+				/* find all basketball teams */
 				if(line.contains("<wordnet_basketball_team")){
 					Team newTeam = getTeamFromLine(line);
 					newTeam.setSportField(SportField.BASKETBALL);
 					teamsMap.put(newTeam.getTeamName(), newTeam);
 				}
-					/* find all football teams */
+				/* find all football teams */
 				if(line.contains("<wordnet_football_team")){
 					Team newTeam = getTeamFromLine(line);
 					newTeam.setSportField(SportField.FOOTBALL);
@@ -93,6 +94,15 @@ public class TransitiveType_Parser extends abstract_parser{
 					if (line.contains("_tennis_"))
 						coach.setSportField(SportField.TENNIS);
 					coachesMap.put(coach.getName(), coach);
+				}
+				
+				/* find all the events with the proper tag */
+				if(line.contains("<wikicat") && line.contains("competitions")) {
+					Event newEvent=getEventFromLine(line);
+					if (newEvent != null) {
+						eventsMap.put(newEvent.getName(),newEvent);
+					}
+					
 				}
 				
 			}
@@ -147,6 +157,29 @@ public class TransitiveType_Parser extends abstract_parser{
 		line = line.substring(line.indexOf('>',0)+1);
 		String team_name = getTag(line);
 		return new Team(yagoID,team_name,0);
+	}
+	
+	protected Event getEventFromLine(String line){
+		String yagoID=getTag(line);
+		line=line.substring(line.indexOf('>',0)+1);
+		String event_name=getTag(line);
+		SportField typeOfSport=null;
+		
+		if(line.contains("football") || line.contains("soccer")) {
+			typeOfSport=SportField.FOOTBALL;
+		}
+		else if(line.contains("basketball")) {
+			typeOfSport=SportField.BASKETBALL;
+		}
+		else {
+			return null;
+		}
+		
+		//DEBUG
+		//System.out.println("The event yagoID is:"+yagoID+"\t The event name is:"+event_name+"\t The sport field is:"+typeOfSport.getKind());
+		//DEBUG
+		
+		return new Event(yagoID,event_name,0,null,typeOfSport);	//TODO:ID and HappendIn
 	}
 
 }
