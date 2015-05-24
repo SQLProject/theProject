@@ -17,12 +17,16 @@ import entities.Team;
 public class Facts_Parser extends abstract_parser{
 	
 	public Facts_Parser(HashMap<String, Country> countriesMap, HashMap<String,City> citiesSet, 
-			HashMap<String,Player> playersMap, HashMap<String,Coach> coachesMap, HashMap<String,Team> teamMap){
+			HashMap<String,Player> playersMap, HashMap<String,Coach> coachesMap, HashMap<String,Team> teamsMap,
+			HashMap<String,Award> awardsMap, HashMap<String,Event> eventsMap, HashMap<String,Stadium> stadiumsMap){
 		this.countriesMap= countriesMap;
 		this.citiesMap= citiesSet;
 		this.coachesMap=coachesMap;
 		this.playersMap=playersMap;
-		this.teamsMap=teamMap;
+		this.teamsMap=teamsMap;
+		this.awardsMap=awardsMap;
+		this.eventsMap=eventsMap;
+		this.stadiumsMap=stadiumsMap;
 		parse_yago_facts();
 	}
 	
