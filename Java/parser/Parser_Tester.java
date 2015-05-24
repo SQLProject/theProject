@@ -24,6 +24,13 @@ public class Parser_Tester {
 		}
 		//Facts_Parser facts_pars= new Facts_Parser(transitive_pars.getCountriesMap(),
 			//	transitive_pars.getCitiesMap(),	transitive_pars.getPlayersMap(), transitive_pars.getCoachesMap());
+		
+		/*test for teams*/
+		Set<String> nameSet=(transitive_pars.getTeamsMap()).keySet();
+		for (String team:nameSet)
+		{
+			System.out.println(team);
+		}
 	}
 
 }
