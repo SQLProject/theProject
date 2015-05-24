@@ -30,7 +30,7 @@ public class TransitiveType_Parser extends abstract_parser{
 	}
 	
 	protected void parse_transitive_type(){
-		String yagoTransitiveType_file_path = "D:\\yagodata\\yagoTransitiveType.tsv";
+		String yagoTransitiveType_file_path = config.get_yago_transitive_types_path();
 		
 		/*try to open the yagoTansetiveTypes file*/
 		File yagoTransetiveTypes = new File(yagoTransitiveType_file_path);
