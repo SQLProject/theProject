@@ -13,7 +13,7 @@ import entities.Event;
 import entities.SportField;
 import entities.Player;
 import entities.Team;
-
+import entities.Stadium;
 
 
 
@@ -27,7 +27,7 @@ public class TransitiveType_Parser extends abstract_parser{
 		this.eventsMap= new HashMap<String,Event>();
 		this.teamsMap = new HashMap<String,Team>();
 		this.locationMap=new HashMap<String, Location>();
-
+		this.stadiumsMap = new HashMap<String,Stadium>();
 	}
 	
 	public void parse_transitive_type(){
@@ -112,6 +112,12 @@ public class TransitiveType_Parser extends abstract_parser{
 					
 				}
 				
+				/* find all the stadiums with the proper tag */
+				if(line.contains("<wordnet_stadium")) {
+					Stadium newStadium=getStadiumFromLine(line);
+					stadiumsMap.put(newStadium.getName(),newStadium);
+				}
+				
 			}
 		}
 		catch(Exception e){
@@ -182,11 +188,14 @@ public class TransitiveType_Parser extends abstract_parser{
 			return null;
 		}
 		
-		//DEBUG
-		//System.out.println("The event yagoID is:"+yagoID+"\t The event name is:"+event_name+"\t The sport field is:"+typeOfSport.getKind());
-		//DEBUG
-		
 		return new Event(yagoID,event_name,0,null,typeOfSport);	//TODO:ID and HappendIn
+	}
+	
+	protected Stadium getStadiumFromLine(String line){
+		String yagoID=getTag(line);
+		line=line.substring(line.indexOf('>',0)+1);
+		String stadium_name=getTag(line);
+		return new Stadium(yagoID,stadium_name,0);	//TODO:ID
 	}
 
 }
