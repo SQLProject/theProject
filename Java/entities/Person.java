@@ -21,7 +21,7 @@ public abstract class Person {
 		this.id=id;
 	}
 	
-	protected void setBirthDate(String date){
+	public void setBirthDate(String date){
 		this.birthDate=new Date(date);
 	}
 	
@@ -65,6 +65,10 @@ public abstract class Person {
 	public void setAwards(String award)
 	{
 		this.awards.add(award);
+	}
+	
+	public void setBirthDate(Date birthDate){
+		this.birthDate=birthDate;
 	}
 	
 
