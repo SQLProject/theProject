@@ -24,6 +24,11 @@ public class PropertyConfig {
         return configFile.getProperty("YagoSimpleTypesFilePath");
     }
 
+    /** get the path of the file yagoSimpleTypes.ttl */
+    public String get_yago_transitive_types_path(){
+        return configFile.getProperty("YagoTransitiveTypePath");
+    }
+
     /** get the path of the file yagoFacts.ttl */
     public String get_yago_facts_path(){
         return configFile.getProperty("YagoFactsFilePath");
