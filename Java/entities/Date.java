@@ -14,12 +14,25 @@ public class Date {
 	
 	public Date(String date){ //YYYY-MM-DD
 		this.year=(date.charAt(0)-'0')*1000+(date.charAt(1)-'0')*100+(date.charAt(2)-'0')*10+(date.charAt(3)-'0');
-		this.month=(date.charAt(5)-'0')*10+(date.charAt(6)-'0');
-		this.day=(date.charAt(8)-'0')*10+(date.charAt(9)-'0');
+		
+		if (date.charAt(5)=='#')
+			this.month=0;
+		else
+			this.month=(date.charAt(5)-'0')*10+(date.charAt(6)-'0');
+		
+		if (date.charAt(8)=='#')
+			this.month=0;
+		else
+			this.day=(date.charAt(8)-'0')*10+(date.charAt(9)-'0');
 	}
 	
 	protected String getDate(){
-		return Integer.toString(this.year)+'-'+Integer.toString(this.month)+'-'+Integer.toString(this.day);
+		String stringDate=Integer.toString(this.year);
+		
+		if (this.month!=0 || this.day!=0) //we assume that month&day are both zero or both non-zero
+			stringDate=Integer.toString(this.day)+'-'+Integer.toString(this.month)+'-'+stringDate;
+		
+		return stringDate;
 	}
 	
 	protected int getYear(){
