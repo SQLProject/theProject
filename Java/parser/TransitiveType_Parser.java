@@ -60,13 +60,13 @@ public class TransitiveType_Parser extends abstract_parser{
 					citiesMap.put(newCity.getName(),newCity);
 				}
 				
-					/* find all basketball teams */
+				/* find all basketball teams */
 				if(line.contains("<wordnet_basketball_team")){
 					Team newTeam = getTeamFromLine(line);
 					newTeam.setSportField(SportField.BASKETBALL);
 					teamsMap.put(newTeam.getTeamName(), newTeam);
 				}
-					/* find all football teams */
+				/* find all football teams */
 				if(line.contains("<wordnet_football_team")){
 					Team newTeam = getTeamFromLine(line);
 					newTeam.setSportField(SportField.FOOTBALL);
