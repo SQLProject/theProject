@@ -23,5 +23,15 @@ public class Event {
 	public String getYagoID(){
 		return this.yagoID;
 	}
+	
+	public void setLocation(Location location)
+	{
+		this.happendIn=location;
+	}
+	
+	public Location getLocation()
+	{
+		return this.happendIn;
+	}
 
 }
