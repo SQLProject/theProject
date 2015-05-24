@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Set;
+
 public abstract class Person {
 	
 	String yagoID;
@@ -9,6 +11,7 @@ public abstract class Person {
 	City birthCity;
 	City currentCity;
 	SportField sportfield;
+	
 	
 	
 	public Person (String yagoID, String name, int id){
@@ -21,8 +24,12 @@ public abstract class Person {
 		this.birthDate=new Date(date);
 	}
 	
-	protected void setBirthPlace(City birthCity){
+	public void setBirthPlace(City birthCity){
 		this.birthCity=birthCity;
+	}
+	
+	public void setCurrentPlace(City currentCity){
+		this.currentCity=currentCity;
 	}
 	
 	protected Date getBirthDate(){
@@ -31,6 +38,10 @@ public abstract class Person {
 	
 	protected City getBirthPlace(){
 		return this.birthCity;
+	}
+	
+	protected City getCurrentPlace(){
+		return this.currentCity;
 	}
 	
 	public String getName(){
