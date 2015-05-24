@@ -68,6 +68,19 @@ public class Facts_Parser extends abstract_parser{
 					countLanguages++;
 					//DEBUG
 				}
+				
+				/* find all the teams the player played for */
+				if(line.contains("<playsFor>"))
+				{
+					addPlaysFor(line);
+				}
+				
+				/* find all the teams the coach isAffiliatedTo */
+				if(line.contains("<isAffiliatedTo>"))
+				{
+					addAffiliatedTo(line);
+				}
+				
 
 			}
 		}
@@ -139,6 +152,39 @@ public class Facts_Parser extends abstract_parser{
 		capitalCity.setCountry(country);
 	}
 	
+		private void addPlaysFor(String line) 
+		{
+			/* get the the parsed info from the line */
+			String yagoID=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			String player_name=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			line=line.substring(line.indexOf('>',0)+1);
+			String team_name=getTag(line);
+			
+			/* check if the player and the team are valid */
+			if(playersMap.containsKey(player_name) && teamsMap.containsKey(team_name))
+			{
+				playersMap.get(player_name).setTeams(team_name);
+			}
+		}
+		
+		private void addAffiliatedTo(String line) 
+		{
+			/* get the the parsed info from the line */
+			String yagoID=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			String coach_name=getTag(line);
+			line=line.substring(line.indexOf('>',0)+1);
+			line=line.substring(line.indexOf('>',0)+1);
+			String team_name=getTag(line);
+			
+			/* check if the player and the team are valid */
+			if(coachesMap.containsKey(coach_name) && teamsMap.containsKey(team_name))
+			{
+				playersMap.get(coach_name).setTeams(team_name);
+			}
+		}
 	
 
 	
