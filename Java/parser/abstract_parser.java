@@ -2,6 +2,7 @@ package parser;
 
 import java.util.HashMap;
 
+import confguration.PropertyConfig;
 import entities.City;
 import entities.Coach;
 import entities.Country;
@@ -19,7 +20,7 @@ public abstract class abstract_parser {
 	HashMap<String,Team> teamsMap;
 	HashMap<String,Event> eventsMap;
 
-	
+	PropertyConfig config=new PropertyConfig();
 	protected static String getTag(String line){		
 		return line.substring(line.indexOf('<',0)+1, line.indexOf('>',0));
 	}
