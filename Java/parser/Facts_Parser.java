@@ -13,6 +13,8 @@ import entities.Country;
 import entities.Person;
 import entities.Player;
 import entities.Team;
+import entities.Event;
+import entities.Stadium;
 
 public class Facts_Parser extends abstract_parser{
 	
