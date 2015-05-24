@@ -33,6 +33,11 @@ public class PropertyConfig {
     public String get_yago_facts_path(){
         return configFile.getProperty("YagoFactsFilePath");
     }
+    
+    /**get the path of the file yagoDateFacts.tsv**/
+    public String get_yago_date_facts_path(){
+    	return configFile.getProperty("YagoDateFactsFilePath");
+    }
 
     /** get the path of the file yagoLiteralFacts.ttl */
     public String get_yago_literal_facts_path(){
