@@ -26,7 +26,6 @@ public class TransitiveType_Parser extends abstract_parser{
 		this.coachesMap=new HashMap<String,Coach>();
 		this.eventsMap= new HashMap<String,Event>();
 		this.teamsMap = new HashMap<String,Team>();
-		parse_transitive_type();
 	}
 	
 	protected void parse_transitive_type(){
