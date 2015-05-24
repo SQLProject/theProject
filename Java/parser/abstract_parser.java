@@ -96,7 +96,7 @@ public abstract class abstract_parser {
 		return this.stadiumsMap.values();
 	}
 	public Collection<Award> getAwardsSet(){
-		return this.AwardsMap.values();
+		return this.awardsMap.values();
 	}
 		
 }
