@@ -26,8 +26,8 @@ public class Parser_Tester {
 			//	transitive_pars.getCitiesMap(),	transitive_pars.getPlayersMap(), transitive_pars.getCoachesMap());
 		
 		/*test for teams*/
-		Set<String> nameSet=(transitive_pars.getTeamsMap()).keySet();
-		for (String team:nameSet)
+		Set<String> nameSet2=(transitive_pars.getTeamsMap()).keySet();
+		for (String team:nameSet2)
 		{
 			System.out.println(team);
 		}
