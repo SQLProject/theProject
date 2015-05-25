@@ -369,6 +369,7 @@ public class Facts_Parser extends abstract_parser{
 		}
 
 		country.addCity(city);
+		city.setCountry(country);
 		countriesMap.put(country_name, country);			
 		}		
 	
