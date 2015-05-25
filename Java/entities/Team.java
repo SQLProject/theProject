@@ -9,6 +9,7 @@ public class Team {
 	int id;
 	SportField sportField;
 	City city=null;
+	Stadium stadium=null;
 	
 	public Team (String yagoID, String name, int id){
 		this.yagoID = yagoID;
@@ -34,6 +35,16 @@ public class Team {
 	public City getCity()
 	{
 		return this.city;
+	}
+	
+	public void setStadium(Stadium stadium)
+	{
+		this.stadium=stadium;
+	}
+	
+	public Stadium getStadium()
+	{
+		return this.stadium;
 	}
 
 }

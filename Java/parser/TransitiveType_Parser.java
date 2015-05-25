@@ -14,6 +14,7 @@ import entities.SportField;
 import entities.Player;
 import entities.Team;
 import entities.Stadium;
+import entities.Location;
 
 
 
@@ -86,8 +87,6 @@ public class TransitiveType_Parser extends abstract_parser{
 						player.setSportField(SportField.FOOTBALL);
 					if (line.contains("_basketball_"))
 						player.setSportField(SportField.BASKETBALL);
-					if (line.contains("_tennis_"))
-						player.setSportField(SportField.TENNIS);
 					playersMap.put(player.getName(), player);
 				}
 				
@@ -98,8 +97,6 @@ public class TransitiveType_Parser extends abstract_parser{
 						coach.setSportField(SportField.FOOTBALL);
 					if (line.contains("_basketball_"))
 						coach.setSportField(SportField.BASKETBALL);
-					if (line.contains("_tennis_"))
-						coach.setSportField(SportField.TENNIS);
 					coachesMap.put(coach.getName(), coach);
 				}
 				
