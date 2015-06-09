@@ -69,8 +69,10 @@ public class DateFactsParser extends abstract_parser{
 	protected void addBirthDateToPerson(String line){
 	
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return;
 		String person_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
