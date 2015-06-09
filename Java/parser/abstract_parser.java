@@ -98,6 +98,20 @@ public abstract class abstract_parser {
 	public Collection<Award> getAwardsSet(){
 		return this.awardsMap.values();
 	}
+			//clean the word or return null if invalid
+	public static String isValidEnt(String ent){
+		ent=ent.replaceAll("_", "0");
+		ent=ent.replaceAll(",","0");
+		ent=ent.replaceAll("-","0");
+		ent=ent.replaceAll(" ", "0");
 		
+		if(ent.matches("[A-Za-z0-9]+"))
+		{
+			ent=ent.replaceAll("0", " ");
+			ent=ent.replaceAll("  ", " ");
+			return ent;
+		}
+		return null;
+	}
 }
 
