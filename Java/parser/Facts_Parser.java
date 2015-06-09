@@ -371,6 +371,22 @@ public class Facts_Parser extends abstract_parser{
 		country.addCity(city);
 		city.setCountry(country);
 		countriesMap.put(country_name, country);			
-		}		
+		}
+		
+		
+	public static String isValidEnt(String ent){
+		ent=ent.replaceAll("_", "0");
+		ent=ent.replaceAll(",","0");
+		ent=ent.replaceAll("-","0");
+		ent=ent.replaceAll(" ", "0");
+		
+		if(ent.matches("[A-Za-z0-9]+"))
+		{
+			ent=ent.replaceAll("0", " ");
+			ent=ent.replaceAll("  ", " ");
+			return ent;
+		}
+		return null;
+	}
 	
 	}
