@@ -56,6 +56,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the countries with the proper tag */
 				if(line.contains("<wikicat_Countries>")){
 					Country newCountry=getCountryFromLine(line);
+					if(newCountry==null) continue;
 					countriesMap.put(newCountry.getName(), newCountry);
 					locationMap.put(newCountry.getName(), newCountry);
 				}
@@ -63,6 +64,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the cities with the proper tag */
 				if(line.contains("<wikicat_Cities>") || line.contains("<wordnet_city_")){
 					City newCity=getCityFromLine(line);
+					if(newCity==null) continue;
 					citiesMap.put(newCity.getName(),newCity);
 					locationMap.put(newCity.getName(),newCity);
 				}
@@ -70,12 +72,14 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all basketball teams */
 				if(line.contains("<wordnet_basketball_team")){
 					Team newTeam = getTeamFromLine(line);
+					if(newTeam==null) continue;
 					newTeam.setSportField(SportField.BASKETBALL);
 					teamsMap.put(newTeam.getTeamName(), newTeam);
 				}
 				/* find all football teams */
 				if(line.contains("<wordnet_football_team")){
 					Team newTeam = getTeamFromLine(line);
+					if(newTeam==null) continue;
 					newTeam.setSportField(SportField.FOOTBALL);
 					teamsMap.put(newTeam.getTeamName(), newTeam);
 				}
@@ -83,6 +87,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the sport players */
 				if(line.contains("<wordnet_") && line.contains("_player_")){
 					Player player= getPlayerFromLine(line);
+					if(player==null) continue;
 					if (line.contains("_football_"))
 						player.setSportField(SportField.FOOTBALL);
 					if (line.contains("_basketball_"))
@@ -93,6 +98,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the sport coaches */
 				if(line.contains("<wordnet_") && line.contains("_coach_")){
 					Coach coach= getCoachFromLine(line);
+					if(coach==null) continue;
 					if (line.contains("_football_"))
 						coach.setSportField(SportField.FOOTBALL);
 					if (line.contains("_basketball_"))
@@ -103,6 +109,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the events with the proper tag */
 				if(line.contains("<wikicat") && line.contains("competitions")) {
 					Event newEvent=getEventFromLine(line);
+					if(newEvent==null) continue;
 					if (newEvent != null) {
 						eventsMap.put(newEvent.getName(),newEvent);
 					}
@@ -112,6 +119,7 @@ public class TransitiveType_Parser extends abstract_parser{
 				/* find all the stadiums with the proper tag */
 				if(line.contains("<wordnet_stadium")) {
 					Stadium newStadium=getStadiumFromLine(line);
+					if(newStadium==null) continue;
 					stadiumsMap.put(newStadium.getName(),newStadium);
 				}
 				
@@ -136,43 +144,54 @@ public class TransitiveType_Parser extends abstract_parser{
 		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String coach_name=getTag(line);
 		return new Coach(yagoID,coach_name,0); //TODO:ID
 	}
 
 	private Player getPlayerFromLine(String line) {
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String player_name=getTag(line);
 		return new Player(yagoID,player_name,0); //TODO:ID
 	}
 
 	protected Country getCountryFromLine(String line){
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String country_name=getTag(line);
 		return new Country(yagoID,country_name,0);	//TODO:ID	
 	}
 	
 	
 	protected City getCityFromLine(String line){
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String city_name=getTag(line);
 		return new City(yagoID,city_name,0);	//TODO:ID
 		
 	}
 	
 	protected Team getTeamFromLine(String line){
+		if(getTag(line)==null) return null;
 		String yagoID = getTag(line);
 		line = line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String team_name = getTag(line);
 		return new Team(yagoID,team_name,0);
 	}
 	
 	protected Event getEventFromLine(String line){
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String event_name=getTag(line);
 		SportField typeOfSport=null;
 		
@@ -190,8 +209,10 @@ public class TransitiveType_Parser extends abstract_parser{
 	}
 	
 	protected Stadium getStadiumFromLine(String line){
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String stadium_name=getTag(line);
 		return new Stadium(yagoID,stadium_name,0);	//TODO:ID
 	}
