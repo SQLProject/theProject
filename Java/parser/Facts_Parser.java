@@ -139,11 +139,14 @@ public class Facts_Parser extends abstract_parser{
 
 	protected void addPlaceToPerson(String line, boolean birthFlag){
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String person_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String city_name=getTag(line);
 		
 		Person person;
@@ -172,8 +175,10 @@ public class Facts_Parser extends abstract_parser{
 	
  	protected void addLanguagestoCountry(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String country_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
@@ -193,11 +198,14 @@ public class Facts_Parser extends abstract_parser{
 	protected void addCapitaltoCountry(String line) {
 		
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String country_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String capital_name=getTag(line);
 		
 		/* find the country in the countries list and insert the capital city */
@@ -220,11 +228,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addPlaysFor(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String player_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String team_name=getTag(line);
 		
 		/* check if the player and the team are valid */
@@ -237,11 +248,14 @@ public class Facts_Parser extends abstract_parser{
 	private void addAffiliatedTo(String line) 
 	{
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String coach_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String team_name=getTag(line);
 		
 		/* check if the player and the team are valid */
@@ -253,11 +267,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addAwardTo(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String person_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String award_name=getTag(line);
 		/* check if the player is valid */
 		if(playersMap.containsKey(person_name))
@@ -285,11 +302,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addTeamLocation(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String team_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String city_name=getTag(line);
 		if(teamsMap.containsKey(team_name) && citiesMap.containsKey(city_name))
 		{
@@ -299,11 +319,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addEventLocation(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String event_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String location_name=getTag(line);
 		if(eventsMap.containsKey(event_name))
 		{
@@ -321,11 +344,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addStadiumLocation(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String stadium_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String city_name=getTag(line);
 		if(stadiumsMap.containsKey(stadium_name) && citiesMap.containsKey(city_name))
 		{
@@ -335,11 +361,14 @@ public class Facts_Parser extends abstract_parser{
 	
 	private void addTeamStadium(String line) {
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String team_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String stadium_name=getTag(line);
 		if(teamsMap.containsKey(team_name) && stadiumsMap.containsKey(stadium_name))
 		{
@@ -350,11 +379,14 @@ public class Facts_Parser extends abstract_parser{
 	protected void addCityToCountry(String line) {
 
 		/* get the the parsed info from the line */
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String city_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
+		if(getTag(line)==null) return null;
 		String country_name=getTag(line).substring(line.indexOf('_', 0));
 
 		/* find the country in the countries list and insert the language */
