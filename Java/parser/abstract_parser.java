@@ -29,7 +29,7 @@ public abstract class abstract_parser {
 
 	PropertyConfig config=new PropertyConfig();
 	protected static String getTag(String line){		
-		return line.substring(line.indexOf('<',0)+1, line.indexOf('>',0));
+		return TransitiveType_Parser.isValidEnt(line.substring(line.indexOf('<',0)+1, line.indexOf('>',0)));
 	}
 	
 	//TODO: to write function that gets 3 tags and 4 tags from the line
