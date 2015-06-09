@@ -133,6 +133,7 @@ public class TransitiveType_Parser extends abstract_parser{
 	
 	
 	private Coach getCoachFromLine(String line) {
+		if(getTag(line)==null) return null;
 		String yagoID=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		String coach_name=getTag(line);
