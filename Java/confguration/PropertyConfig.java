@@ -101,6 +101,10 @@ public class PropertyConfig {
         return Integer.parseInt(x);
     }
 
+    public int getMapYagoID(){
+        return Integer.parseInt(configFile.getProperty("MapYagoID"));
+    }
+
     public int get_admin_userid() {
         return Integer.parseInt(configFile.getProperty("ADMIN_USERNAME"));
     }

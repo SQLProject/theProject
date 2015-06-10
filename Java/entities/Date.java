@@ -35,15 +35,15 @@ public class Date {
 		return stringDate;
 	}
 	
-	protected int getYear(){
+	public int getYear(){
 		return this.year;
 	}
 	
-	protected int getMonth(){
+	public int getMonth(){
 		return this.month;
 	}
 	
-	protected int getDay(){
+	public int getDay(){
 		return this.day;
 	}
 

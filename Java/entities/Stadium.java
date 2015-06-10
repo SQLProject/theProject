@@ -15,7 +15,7 @@ public class Stadium extends Location {
 		this.city=city;
 	}
 	
-	protected City getCity(){
+	public City getCity(){
 		return this.city;
 	}
 

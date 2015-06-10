@@ -15,7 +15,7 @@ public class City extends Location{
 		this.country=country;
 	}
 	
-	protected Country getCountry(){
+	public Country getCountry(){
 		return this.country;
 	}
 	

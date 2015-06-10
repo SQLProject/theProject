@@ -1,25 +1,22 @@
 package db;
 
 
+import parser.Facts_Parser;
 import parser.TransitiveType_Parser;
-
-import java.sql.SQLException;
-import java.util.HashMap;
 
 
 public abstract class QueriesTransitiveType extends AbstractLoader {
 
-    public TransitiveType_Parser parser;
-
+    public TransitiveType_Parser transitiveTypeParser;
+    public Facts_Parser factsParser;
     public QueriesTransitiveType(){
-        parser=new TransitiveType_Parser();
 
     }
 
 
 
     public void sync_update_tables() {
-        parser.parse_transitive_type();
+        transitiveTypeParser.parse_transitive_type(true);
     }
 
 

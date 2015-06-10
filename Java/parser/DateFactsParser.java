@@ -6,21 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import entities.City;
 import entities.Coach;
-import entities.Country;
 import entities.Date;
 import entities.Event;
 import entities.Person;
-import entities.Player;
-import entities.SportField;
-import entities.Team;
+import entities.FootballPlayer;
 
 public class DateFactsParser extends abstract_parser{
 	
-	public DateFactsParser(HashMap<String,Player> playersMap,HashMap<String,Coach> coachesMap
+	public DateFactsParser(HashMap<String, FootballPlayer> playersMap,HashMap<String,Coach> coachesMap
 			,HashMap<String,Event> eventsMap){
-		this.playersMap= new HashMap<String,Player>();
+		this.footballPlayersMap = new HashMap<String, FootballPlayer>();
 		this.coachesMap=new HashMap<String,Coach>();
 		this.eventsMap= new HashMap<String,Event>();
 	}
@@ -76,14 +72,19 @@ public class DateFactsParser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		String date=getTag(line).substring((line.indexOf('"',0)+1), line.indexOf('"',1)+1);
 		
+		person_name=isValidEnt(person_name);
+		if(person_name==null) return;
+		date=isValidEnt(date);
+		if(date==null) return;
+		
 		Person person;
 		Date birthDate=new Date(date);
 		
 		/*find the person- player or coach and add his current or birth place*/
-		if (playersMap.containsKey(person_name)){
-			person=playersMap.get(person_name);
+		if (footballPlayersMap.containsKey(person_name)){
+			person= footballPlayersMap.get(person_name);
 			person.setBirthDate(birthDate);
-			playersMap.put(person_name, (Player)person);
+			footballPlayersMap.put(person_name, (FootballPlayer)person);
 		}
 		if (coachesMap.containsKey(person_name)){
 			person=coachesMap.get(person_name);

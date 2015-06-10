@@ -1,15 +1,39 @@
 package entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Person {
-	
+
+	public String getYagoID() {
+		return yagoID;
+	}
+
 	String yagoID;
 	String name;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	int id;
 	Date birthDate;
 	City birthCity;
+
+	public City getCurrentCity() {
+		return currentCity;
+	}
+
+	public void setCurrentCity(City currentCity) {
+		this.currentCity = currentCity;
+	}
+
 	City currentCity;
+
+	public SportField getSportfield() {
+		return sportfield;
+	}
+
 	SportField sportfield;
 	Set<String> teams; 
 	Set<String> awards;
@@ -19,6 +43,8 @@ public abstract class Person {
 		this.yagoID=yagoID;
 		this.name=name;
 		this.id=id;
+		this.teams = new HashSet<String>();
+		this.awards = new HashSet<String>();
 	}
 	
 	public void setBirthDate(String date){

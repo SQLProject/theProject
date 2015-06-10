@@ -12,22 +12,24 @@ import java.util.HashMap;
 public class QueriesCountry extends QueriesLocation {
 
 
-
-    public QueriesCountry(){
+    public QueriesCountry() {
         super();
-
+        this.entityTableName="Country";
     }
 
     @Override
     public HashMap<String, Country> getMap() {
-        return parser.getCountriesMap();
+        return transitiveTypeParser.getCountriesMap();
     }
 
 
     @Override
     protected void set_perpared_statments(Connection db_conn) throws SQLException {
-        insert = db_conn.prepareStatement("INSERT INTO country(countryName) VALUES(?)");
+        insert = db_conn.prepareStatement("INSERT INTO country(idCountry,countryName) VALUES(?,?)");
     }
+
+
+
 
 
 }

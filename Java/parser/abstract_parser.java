@@ -2,28 +2,20 @@ package parser;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import confguration.PropertyConfig;
-import entities.Award;
-import entities.City;
-import entities.Coach;
-import entities.Country;
-import entities.Player;
-import entities.Team;
-import entities.Event;
-import entities.Location;
-import entities.Stadium;
+import entities.*;
 
 public abstract class abstract_parser {
 	
 	HashMap<String,Country> countriesMap;
 	HashMap<String,City> citiesMap;
-	HashMap<String,Player> playersMap;
+	HashMap<String, FootballPlayer> footballPlayersMap;
 	HashMap<String,Coach> coachesMap;
 	HashMap<String,Team> teamsMap;
 	HashMap<String,Event> eventsMap;
 	HashMap<String,Location> locationMap;
+	HashMap<String, Person> personMap;
 	HashMap<String,Stadium> stadiumsMap;
 	HashMap<String,Award> awardsMap;
 
@@ -39,12 +31,13 @@ public abstract class abstract_parser {
 	}
 
 	public HashMap<String, Location> getLocationMap(){return this.locationMap;}
+	public HashMap<String, Person> getPersonMap(){return this.personMap;}
 	public HashMap<String,City> getCitiesMap(){
 		return this.citiesMap;
 	}
 	
-	public HashMap<String,Player> getPlayersMap(){
-		return this.playersMap;
+	public HashMap<String, FootballPlayer> getFootballPlayersMap(){
+		return this.footballPlayersMap;
 	}
 	
 	public HashMap<String,Coach> getCoachesMap(){
@@ -63,7 +56,7 @@ public abstract class abstract_parser {
 		return this.stadiumsMap;
 	}
 	
-		protected HashMap<String,Award> getAwardsMap(){
+		public HashMap<String,Award> getAwardsMap(){
 		return this.awardsMap;
 	}
 	
@@ -76,8 +69,8 @@ public abstract class abstract_parser {
 		return this.citiesMap.values();
 	}
 	
-	public Collection<Player> getPlayersSet(){
-		return this.playersMap.values();
+	public Collection<FootballPlayer> getPlayersSet(){
+		return this.footballPlayersMap.values();
 	}
 	
 	public Collection<Coach> getCoachesSet(){
@@ -96,7 +89,22 @@ public abstract class abstract_parser {
 		return this.stadiumsMap.values();
 	}
 	public Collection<Award> getAwardsSet(){
-		return this.AwardsMap.values();
+		return this.awardsMap.values();
+	}
+	public static String isValidEnt(String ent){
+		ent=ent.replaceAll("_", "0");
+		ent=ent.replaceAll(",","0");
+		ent=ent.replaceAll("-","0");
+		ent=ent.replaceAll(" ", "0");
+		
+		if(ent.matches("[A-Za-z0-9]+"))
+		{
+			ent=ent.replaceAll("  ", " ");
+			ent=ent.replaceAll("0", " ");
+			ent=ent.replaceAll("  ", " ");
+			return ent;
+		}
+		return null;
 	}
 		
 }

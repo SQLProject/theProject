@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import Utils.MapStringToInt;
 import confguration.PropertyConfig;
 import db.DBOperations;
 import entities.Location;
@@ -66,7 +67,7 @@ public abstract class AbstractLoader extends DBOperations {
         Iterable<Object> update_entities;
         try {
 			/* update relevant tables with db */
-            sync_update_tables();
+            //sync_update_tables();
 
 			/* set prepared statments against connection */
             db_conn = getConnection();
@@ -75,12 +76,20 @@ public abstract class AbstractLoader extends DBOperations {
 //                if (Caller.is_thread_terminated())
 //                    break;
                 progress++;
+//                if (progress>50){
+//                    break;
+//                }
                 if (progress % 10000 == 0)
                     this.notifyListeners(this, "progress", "0", (new Integer(
                             progress)).toString());
                 batch_count += create_statments(obj);
-                if (batch_count > 0 && batch_count % BATCH_SIZE == 0)
+                if (batch_count > 0 && batch_count % BATCH_SIZE == 0) {
                     fail_count += execute_batches(batch_count);
+//                    if (batch_count >40){
+//
+//                    }
+                }
+
             }
             fail_count += execute_batches(batch_count % BATCH_SIZE);
 			/* execute remainder - if not terminated */
@@ -90,6 +99,7 @@ public abstract class AbstractLoader extends DBOperations {
         } catch (SQLException ex) {
             throw ex;
         } catch (Exception ex) {
+            ex.printStackTrace();
             System.out.println("Error in Batch, Attempt to continue");
         } finally {
             try {

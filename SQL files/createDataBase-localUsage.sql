@@ -6,22 +6,13 @@ CREATE SCHEMA IF NOT EXISTS `Trivia` DEFAULT CHARACTER SET utf8 ;
 USE `Trivia` ;
 
 
--- -----------------------------------------------------
--- Table `language`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `language` (
-  `idLanguage` TINYINT NOT NULL AUTO_INCREMENT,
-  `languageName` CHAR(20) NOT NULL,
-  UNIQUE INDEX `user_lang_unq` (`languageName` ASC),
-  PRIMARY KEY (`idLanguage`))
-ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `location`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `location` (
-  `idLocation` INT NOT NULL AUTO_INCREMENT,
-  `locationName` VARCHAR(25) NOT NULL,
+  `idLocation` INT NOT NULL,
+  `locationName` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`idLocation`),
   INDEX `locationName_idx` USING BTREE (`locationName` ASC))
 ENGINE = InnoDB;
@@ -30,12 +21,9 @@ ENGINE = InnoDB;
 -- Table `country`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `country` (
-  `idCountry` INT NOT NULL AUTO_INCREMENT,
-  `idLanguage` TINYINT NULL DEFAULT NULL,
+  `idCountry` INT NOT NULL,
   `countryName` VARCHAR(128) NOT NULL,
-  `wiki` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`idCountry`),
-  INDEX `idLanguage_idx` (`idLanguage` ASC),
   INDEX `countryName` (`countryName` (128)),
   CONSTRAINT `idCountry`
     FOREIGN KEY (`idCountry`)
@@ -50,8 +38,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `city` (
   `idCity` INT NOT NULL,
-  `idCountryOfCity` INT NOT NULL,
   `cityName` VARCHAR(128) NOT NULL,
+  `idCountryOfCity` INT,
   PRIMARY KEY (`idCity`),
   INDEX `cityName` (`cityName` (128)),
   CONSTRAINT `idCountryOfCity`
@@ -71,9 +59,15 @@ ENGINE = InnoDB;
 -- Table `person`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `person` (
-  `idPerson` INT NOT NULL AUTO_INCREMENT,
-  `personName` VARCHAR(25) NOT NULL,
+  `idPerson` INT NOT NULL ,
+  `personName` VARCHAR(128) NOT NULL,
   `idLocationOfPerson` INT NOT NULL,
+  `birthYear` INT NOT NULL,
+  `idbirthCity` INT NOT NULL,
+  `idCurrentCity` INT NOT NULL,
+  `sportField` CHAR(24) NOT NULL,
+  `idTeam` INT NOT NULL,
+  `idAward` INT NOT NULL,
   PRIMARY KEY (`idPerson`),
   INDEX `personName_idx` USING BTREE (`personName` ASC))
 ENGINE = InnoDB;
@@ -94,104 +88,56 @@ CREATE TABLE IF NOT EXISTS `football_player` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `basketball_player`
+-- Table `coach`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `basketball_player` (
-  `idBasketballPlayer` INT NOT NULL,
-  PRIMARY KEY (`idBasketballPlayer`),
-  CONSTRAINT `idBasketballPlayer`
-    FOREIGN KEY (`idBasketballPlayer`)
+CREATE TABLE IF NOT EXISTS `coach` (
+  `idCoach` INT NOT NULL,
+  PRIMARY KEY (`idCoach`),
+  CONSTRAINT `idCoach`
+    FOREIGN KEY (`idCoach`)
     REFERENCES `person` (`idPerson`)
     ON DELETE CASCADE
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `tenis_player`
+-- Table `award`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tenis_player` (
-  `idTenisPlayer` INT NOT NULL,
-  PRIMARY KEY (`idTenisPlayer`),
-  CONSTRAINT `idTenisPlayer`
-    FOREIGN KEY (`idTenisPlayer`)
-    REFERENCES `person` (`idPerson`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
+CREATE TABLE IF NOT EXISTS `award` (
+  `idAward` INT NOT NULL ,
+  `AwardName` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`idAward`),
+  INDEX `awardName_idx` USING BTREE (`awardName` ASC))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `language_country` ----------------------------
+-- Table `award_player`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `language_country` (
-  `idCountryOfLanguage` INT NOT NULL AUTO_INCREMENT,
-  `idLanguageOfCountry` TINYINT NOT NULL,
-  INDEX `idCountry_idx` (`idCountryOfLanguage` ASC),
-  INDEX `idLanguage_idx` (`idLanguageOfCountry` ASC),
-  PRIMARY KEY (`idCountryOfLanguage`, `idLanguageOfCountry`),
-  CONSTRAINT `idLanguageOfCountry`
-    FOREIGN KEY (`idLanguageOfCountry`)
-    REFERENCES `language` (`idLanguage`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT,
-  CONSTRAINT `idCountryOfLanguage`
-    FOREIGN KEY (`idCountryOfLanguage`)
-    REFERENCES `country` (`idCountry`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `award_player` (
+	`idAwardOfPlayer` INT NOT NULL,
+    `idPersonOfAward` INT NOT NULL,
+	CONSTRAINT `idAwardOfPlayer`
+		FOREIGN KEY (`idAwardOfPlayer`)
+		REFERENCES `award` (`idAward`)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT,
+	CONSTRAINT `idPersonOfAward`
+		FOREIGN KEY (`idPersonOfAward`)
+		REFERENCES `person` (`idPerson`)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT);
 
 -- -----------------------------------------------------
 -- Table `event`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event` (
-  `idEvent` INT NOT NULL AUTO_INCREMENT,
-  `eventName` VARCHAR(25) NOT NULL,
+  `idEvent` INT NOT NULL ,
+  `eventName` VARCHAR(128) NOT NULL,
+  `sportField` CHAR(25) NOT NULL,
+  `idLocation` INT NOT NULL,
   PRIMARY KEY (`idEvent`),
   INDEX `eventName_idx` USING BTREE (`eventName` ASC))
 ENGINE = InnoDB;
-
-
-
--- -----------------------------------------------------
--- Table `football_event`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `football_event` (
-  `idFootballEvent` INT NOT NULL,
-  PRIMARY KEY (`idFootballEvent`),
-  CONSTRAINT `idFootballEvent`
-    FOREIGN KEY (`idFootballEvent`)
-    REFERENCES `event` (`idEvent`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `basketball_event`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `basketball_event` (
-  `idBasketballEvent` INT NOT NULL,
-  PRIMARY KEY (`idBasketballEvent`),
-  CONSTRAINT `idBasketballEvent`
-    FOREIGN KEY (`idBasketballEvent`)
-    REFERENCES `event` (`idEvent`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `tenis_event`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tenis_event` (
-  `idTenisEvent` INT NOT NULL,
-  PRIMARY KEY (`idTenisEvent`),
-  CONSTRAINT `idTenisEvent`
-    FOREIGN KEY (`idTenisEvent`)
-    REFERENCES `event` (`idEvent`)
-    ON DELETE CASCADE
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
-
 
 
 -- -----------------------------------------------------
@@ -233,4 +179,75 @@ CREATE TABLE IF NOT EXISTS `person_location` (
     ON DELETE CASCADE
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
-	
+
+-- -----------------------------------------------------
+-- Table `stadium`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stadium` (
+  `idStadium` INT NOT NULL ,
+  `stadiumName` VARCHAR(128) NOT NULL,
+  `idCityOfStadium` INT NOT NULL,
+  PRIMARY KEY (`idStadium`),
+  INDEX `stadiumName_idx` USING BTREE (`stadiumName` ASC),
+  CONSTRAINT `idCityOfStadium`
+    FOREIGN KEY (`idCityOfStadium`)
+    REFERENCES `city` (`idCity`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `team`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `team` (
+  `idTeam` INT NOT NULL ,
+  `teamName` VARCHAR(128) NOT NULL,
+  `sportField` CHAR(25) NOT NULL,
+  `idCityOfTeam` INT NOT NULL,
+  `idStadiumOfTeam` INT NOT NULL,
+  PRIMARY KEY (`idTeam`),
+  INDEX `teamName_idx` USING BTREE (`teamName` ASC),
+  CONSTRAINT `idCityOfTeam`
+    FOREIGN KEY (`idCityOfTeam`)
+    REFERENCES `city` (`idCity`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+  CONSTRAINT `idStadiumOfTeam`
+    FOREIGN KEY (`idStadiumOfTeam`)
+    REFERENCES `stadium` (`idstadium`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `person_team` ----------------------------
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `person_team` (
+  `idTeamOfPerson` INT NOT NULL ,
+  `idPersonOfTeam` INT NOT NULL,
+  INDEX `idTeamOfPerson_idx` (`idTeamOfPerson` ASC),
+  INDEX `idPersonOfTeam_idx` (`idPersonOfTeam` ASC),
+  CONSTRAINT `idTeamOfPerson`
+    FOREIGN KEY (`idTeamOfPerson`)
+    REFERENCES `team` (`idTeam`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+  CONSTRAINT `idPersonOfTeam`
+    FOREIGN KEY (`idPersonOfTeam`)
+    REFERENCES `person` (`idPerson`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users` (
+  `idUsers` INT NOT NULL AUTO_INCREMENT,
+  `userName` CHAR(24) NOT NULL,
+  `hashPassword` VARCHAR(128) NOT NULL,
+  PRIMARY KEY (`idUsers`),
+  INDEX `userName_idx` USING BTREE (`userName` ASC))
+ENGINE = MyISAM;
+

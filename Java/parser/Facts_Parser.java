@@ -11,7 +11,7 @@ import entities.City;
 import entities.Coach;
 import entities.Country;
 import entities.Person;
-import entities.Player;
+import entities.FootballPlayer;
 import entities.Team;
 import entities.Event;
 import entities.Stadium;
@@ -19,12 +19,12 @@ import entities.Stadium;
 public class Facts_Parser extends abstract_parser{
 	
 	public Facts_Parser(HashMap<String, Country> countriesMap, HashMap<String,City> citiesSet, 
-			HashMap<String,Player> playersMap, HashMap<String,Coach> coachesMap, HashMap<String,Team> teamsMap,
+			HashMap<String, FootballPlayer> playersMap, HashMap<String,Coach> coachesMap, HashMap<String,Team> teamsMap,
 			HashMap<String,Award> awardsMap, HashMap<String,Event> eventsMap, HashMap<String,Stadium> stadiumsMap){
 		this.countriesMap= countriesMap;
 		this.citiesMap= citiesSet;
 		this.coachesMap=coachesMap;
-		this.playersMap=playersMap;
+		this.footballPlayersMap =playersMap;
 		this.teamsMap=teamsMap;
 		this.awardsMap=awardsMap;
 		this.eventsMap=eventsMap;
@@ -146,19 +146,24 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		String city_name=getTag(line);
 		
+		person_name=isValidEnt(person_name);
+		if (person_name==null) return;
+		city_name=isValidEnt(city_name);
+		if (city_name==null) return;
+		
 		Person person;
 		City cityToAdd=citiesMap.get(city_name);
 		if (cityToAdd==null)
 			cityToAdd=new City(yagoID, city_name, 0);	//TODO:ID
 		
 		/*find the person- player or coach and add his current or birth place*/
-		if (playersMap.containsKey(person_name)){
-			person=playersMap.get(person_name);
+		if (footballPlayersMap.containsKey(person_name)){
+			person= footballPlayersMap.get(person_name);
 			if (birthFlag)
 				person.setBirthPlace(cityToAdd);
 			else
 				person.setCurrentPlace(cityToAdd);
-			playersMap.put(person_name, (Player)person);
+			footballPlayersMap.put(person_name, (FootballPlayer)person);
 		}
 		if (coachesMap.containsKey(person_name)){
 			person=coachesMap.get(person_name);
@@ -177,17 +182,23 @@ public class Facts_Parser extends abstract_parser{
 		String country_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
-		String language=getTag(line).substring(line.indexOf('_', 0));
-		
+		//String language=getTag(line).substring(line.indexOf('_', 0));
+		String language=getTag(line);
 		/* find the country in the countries list and insert the language */
+		country_name=isValidEnt(country_name);
+		if (country_name==null) return;
+		language=isValidEnt(language);
+		if (language==null) return;
+		
+		
 		Country country=countriesMap.get(country_name);
 		if (country==null){
-			System.out.println(" The country "+country_name+", for the language "+language+", has not been found ");
+			//System.out.println(" The country "+country_name+", for the language "+language+", has not been found ");
 			country=new Country(yagoID, country_name, 0); //TODO:ID
 		}
 		
 		country.addLanguage(language);
-		countriesMap.put(country_name, country);
+		//countriesMap.put(country_name, country);
 	}
 
 	protected void addCapitaltoCountry(String line) {
@@ -200,10 +211,15 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		String capital_name=getTag(line);
 		
+		country_name=isValidEnt(country_name);
+		if (country_name==null) return;
+		capital_name=isValidEnt(capital_name);
+		if (capital_name==null) return;
+		
 		/* find the country in the countries list and insert the capital city */
 		Country country=countriesMap.get(country_name);
 		if (country==null){
-			System.out.println(" The country "+country_name+", for the capital city "+capital_name+", has not been found ");
+			//System.out.println(" The country "+country_name+", for the capital city "+capital_name+", has not been found ");
 			country=new Country(yagoID, country_name, 0); //TODO:ID
 		}
 		
@@ -227,10 +243,16 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		String team_name=getTag(line);
 		
+		player_name=isValidEnt(player_name);
+		if (player_name==null) return;
+		team_name=isValidEnt(team_name);
+		if (team_name==null) return;
+		
+		
 		/* check if the player and the team are valid */
-		if(playersMap.containsKey(player_name) && teamsMap.containsKey(team_name))
+		if(footballPlayersMap.containsKey(player_name) && teamsMap.containsKey(team_name))
 		{
-			playersMap.get(player_name).setTeams(team_name);
+			footballPlayersMap.get(player_name).setTeams(team_name);
 		}
 	}
 		
@@ -244,10 +266,15 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		String team_name=getTag(line);
 		
+		coach_name=isValidEnt(coach_name);
+		if (coach_name==null) return;
+		team_name=isValidEnt(team_name);
+		if (team_name==null) return;
+		
 		/* check if the player and the team are valid */
 		if(coachesMap.containsKey(coach_name) && teamsMap.containsKey(team_name))
 		{
-			playersMap.get(coach_name).setTeams(team_name);
+			coachesMap.get(coach_name).setTeams(team_name);
 		}
 	}
 	
@@ -259,10 +286,16 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
 		String award_name=getTag(line);
+		
+		person_name=isValidEnt(person_name);
+		if (person_name==null) return;
+		award_name=isValidEnt(award_name);
+		if (award_name==null) return;
+		
 		/* check if the player is valid */
-		if(playersMap.containsKey(person_name))
+		if(footballPlayersMap.containsKey(person_name))
 		{
-			playersMap.get(person_name).setAwards(award_name);
+			footballPlayersMap.get(person_name).setAwards(award_name);
 			/* add new award if needed */
 			if(!(awardsMap.containsKey(award_name)))
 			{
@@ -291,6 +324,13 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
 		String city_name=getTag(line);
+		
+		team_name=isValidEnt(team_name);
+		if (team_name==null) return;
+		city_name=isValidEnt(city_name);
+		if (city_name==null) return;
+		
+		
 		if(teamsMap.containsKey(team_name) && citiesMap.containsKey(city_name))
 		{
 			teamsMap.get(team_name).setCity(citiesMap.get(city_name));
@@ -305,6 +345,12 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
 		String location_name=getTag(line);
+		
+		event_name=isValidEnt(event_name);
+		if (event_name==null) return;
+		location_name=isValidEnt(location_name);
+		if (location_name==null) return;
+		
 		if(eventsMap.containsKey(event_name))
 		{
 			if(citiesMap.containsKey(location_name))
@@ -327,6 +373,12 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
 		String city_name=getTag(line);
+		
+		stadium_name=isValidEnt(stadium_name);
+		if (stadium_name==null) return;
+		city_name=isValidEnt(city_name);
+		if (city_name==null) return;
+		
 		if(stadiumsMap.containsKey(stadium_name) && citiesMap.containsKey(city_name))
 		{
 			stadiumsMap.get(stadium_name).setCity(citiesMap.get(city_name));
@@ -341,6 +393,12 @@ public class Facts_Parser extends abstract_parser{
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
 		String stadium_name=getTag(line);
+		
+		team_name=isValidEnt(team_name);
+		if (team_name==null) return;
+		stadium_name=isValidEnt(stadium_name);
+		if (stadium_name==null) return;
+		
 		if(teamsMap.containsKey(team_name) && stadiumsMap.containsKey(stadium_name))
 		{
 			teamsMap.get(team_name).setStadium(stadiumsMap.get(stadium_name));
@@ -355,7 +413,14 @@ public class Facts_Parser extends abstract_parser{
 		String city_name=getTag(line);
 		line=line.substring(line.indexOf('>',0)+1);
 		line=line.substring(line.indexOf('>',0)+1);
-		String country_name=getTag(line).substring(line.indexOf('_', 0));
+		//String country_name=getTag(line).substring(line.indexOf('_', 0));
+		String country_name=getTag(line);
+		
+		city_name=isValidEnt(city_name);
+		if (city_name==null) return;
+		country_name=isValidEnt(country_name);
+		if (country_name==null) return;
+		
 
 		/* find the country in the countries list and insert the language */
 		Country country=countriesMap.get(country_name);
@@ -369,7 +434,9 @@ public class Facts_Parser extends abstract_parser{
 		}
 
 		country.addCity(city);
-		countriesMap.put(country_name, country);			
+		//countriesMap.put(country_name, country);
+		city.setCountry(country);
+		citiesMap.put(city_name,city);
 		}		
 	
 	}
